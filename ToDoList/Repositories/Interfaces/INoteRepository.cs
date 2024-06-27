@@ -12,7 +12,7 @@ namespace Repositories.Interfaces
         bool DeleteNote(Note note);
         bool UpdateNote(Note note);
         bool AddNote(Note note);
-        Note GetNoteById(int id);
+        Note? GetNoteById(int id);
         IEnumerable<Note> GetAllNotes();
         IEnumerable<Note> GetNotesByProfileId(int profileId);
         IEnumerable<Note> SearchingNotes(string searchValue);

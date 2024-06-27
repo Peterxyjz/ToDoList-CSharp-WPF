@@ -1,4 +1,4 @@
-﻿-- Tạo cơ sở dữ liệu
+﻿-- Create database ------------------------------
 -- USE master
 -- DROP DATABASE ToDoListDB
 GO
@@ -27,3 +27,15 @@ CREATE TABLE Note
   FOREIGN KEY (Profile_ID) REFERENCES Profile(Profile_ID)
 );
 GO
+
+-- Data Seeding ------------------------------
+INSERT INTO Profile (Profile_Name) VALUES
+('John Doe'),
+('Jane Smith'),
+('Michael Johnson');
+
+-- Insert sample data into Note table
+INSERT INTO Note (Profile_ID, Title, [Description], Modified_Date, [Status], [Time]) VALUES
+(1, 'Meeting Notes', 'Meeting with clients', GETDATE(), 'Pending', GETDATE()),
+(2, 'Task List', 'Complete tasks by end of week', GETDATE(), 'In Progress', GETDATE()),
+(3, 'Reminder', 'Pay bills', GETDATE(), 'Completed', GETDATE());

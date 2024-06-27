@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repositories.Entities;
+using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repositories.Interfaces
+namespace Repositories
 {
     internal class NoteRepository : INoteRepository
     {
@@ -66,7 +67,7 @@ namespace Repositories.Interfaces
         /// </summary>
         /// <param name="id">passed in id</param>
         /// <returns></returns>
-        public Note GetNoteById(int id)
+        public Note? GetNoteById(int id)
         {
             return _dbContext.Notes.Find(id);
         }

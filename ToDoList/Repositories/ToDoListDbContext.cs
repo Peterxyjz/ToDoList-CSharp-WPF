@@ -21,9 +21,6 @@ public partial class ToDoListDbContext : DbContext
 
     public virtual DbSet<Profile> Profiles { get; set; }
 
-    /**
-     * Establish the connection string
-     */
     private string? GetConnectionString()
     {
         IConfiguration configuration = new ConfigurationBuilder()

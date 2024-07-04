@@ -15,7 +15,7 @@
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="#F0F0F0" VerticalAlignment="Stretch">
             <Calendar x:Name="CalendarControl" HorizontalAlignment="Stretch"/>
-            <Button Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White"/>
+            <Button Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White" Click="Button_Click"/>
             <Button Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black"/>
             <Button Content="Quit" Margin="0 15" Height="40" Background="#F44336" Foreground="White"/>
         </StackPanel>
@@ -37,11 +37,12 @@
                 <Button Content="Create Note" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Background="#4CAF50" Foreground="White"/>
             </Grid>
 
-            <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10">
+            <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10" SelectionChanged="NotesDataGrid_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Title" Width="2*" />
-                    <DataGridTextColumn Header="Date - Time" Width="*" />
-                    <DataGridCheckBoxColumn Header="Status" Width="*" />
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="2*" />
+                    <DataGridTextColumn Header="Date - Time" Binding="{Binding Time}" Width="*" />
+                    <DataGridCheckBoxColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                    
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

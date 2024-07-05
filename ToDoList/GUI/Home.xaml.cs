@@ -29,10 +29,21 @@ namespace GUI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetAllNote();
+            NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
         }
 
         private void NotesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            NotesDataGrid.ItemsSource = null;
+            NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes();
+        }
+
+        private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -15,7 +15,7 @@ namespace Services
         private readonly INoteRepository _noteRepo;
         public NoteService(INoteRepository noteRepo) {  _noteRepo = noteRepo; }
 
-        public IEnumerable<Note> GetAllNote()
+        public IEnumerable<Note> GetAllNotes()
         {
             return _noteRepo.GetAllNotes();
         }
@@ -25,5 +25,19 @@ namespace Services
             _noteRepo.AddNote(x);   
         }
 
+        public IEnumerable<Note> GetNotCompleteNotes()
+        {
+            IEnumerable<Note> notes = _noteRepo.GetAllNotes();
+            List<Note> notesNotComplete = new List<Note>();
+            foreach (Note note in notes)
+            {
+                if(note.Status == "Pending")
+                {
+                    notesNotComplete.Add(note);
+                }
+            }
+            IEnumerable<Note> notesUpdated = notesNotComplete;
+            return notesUpdated;
+        }
     }
 }

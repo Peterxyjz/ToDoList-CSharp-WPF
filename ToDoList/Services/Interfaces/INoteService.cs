@@ -9,7 +9,8 @@ namespace Services.Interfaces
 {
     public interface INoteService
     {
-        public IEnumerable<Note> GetAllNote();
+        public IEnumerable<Note> GetAllNotes();
+        public IEnumerable<Note> GetNotCompleteNotes();
         public void CreateNote(Note x);
     }
 }

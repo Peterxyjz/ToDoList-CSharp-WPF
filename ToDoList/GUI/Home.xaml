@@ -15,8 +15,8 @@
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="#F0F0F0" VerticalAlignment="Stretch">
             <Calendar x:Name="CalendarControl" HorizontalAlignment="Stretch"/>
-            <Button Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White" Click="Button_Click"/>
-            <Button Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black"/>
+            <Button x:Name="GetAllButton" Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White" Click="Button_Click"/>
+            <Button x:Name="NotCompleteButton" Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black" Click="Button_Click_1"/>
             <Button Content="Quit" Margin="0 15" Height="40" Background="#F44336" Foreground="White"/>
         </StackPanel>
 
@@ -34,7 +34,7 @@
 
             <Grid>
                 <Label Content="Hello, Profile_name" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"/>
-                <Button Content="Create Note" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Background="#4CAF50" Foreground="White"/>
+                <Button x:Name="CreateNoteButton" Content="Create Note" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Background="#4CAF50" Foreground="White" Click="CreateNoteButton_Click"/>
             </Grid>
 
             <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10" SelectionChanged="NotesDataGrid_SelectionChanged">

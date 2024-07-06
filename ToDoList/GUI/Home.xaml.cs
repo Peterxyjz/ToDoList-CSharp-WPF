@@ -20,10 +20,9 @@ namespace GUI
     public partial class Home : Window
     {
         private readonly INoteService _noteService;
-        public Home(INoteService noteService)
+        public Home()
         {
             InitializeComponent();
-            _noteService = noteService;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -45,7 +44,15 @@ namespace GUI
 
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
         {
+            Detail detail = new Detail();
+            detail.ShowDialog();
+            NotesDataGrid.ItemsSource = null;
+            NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
+        }
 
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

@@ -12,10 +12,4 @@
     </ProjectReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="NoteService.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-
 </Project>

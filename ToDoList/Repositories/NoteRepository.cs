@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    internal class NoteRepository : INoteRepository
+    public class NoteRepository : INoteRepository
     {
         // ========================
         // == Properties & Fields

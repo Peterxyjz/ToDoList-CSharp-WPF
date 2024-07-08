@@ -33,10 +33,7 @@ namespace GUI
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
         }
 
-        private void NotesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

@@ -28,19 +28,19 @@ namespace Services
             _noteRepo.AddNote(x);   
         }
 
-        //Note a = new Note { Title = "aa", Description = "fcihsdvcbi", Time = DateTime.Now };
+        Note a = new Note { Title = "aa", Description = "fcihsdvcbi", Time = DateTime.Now };
         public IEnumerable<Note> GetNotCompleteNotes()
         {
-            IEnumerable<Note> notes = _noteRepo.GetAllNotes();
+            //IEnumerable<Note> notes = _noteRepo.GetAllNotes();
             List<Note> notesNotComplete = new List<Note>();
-            foreach (Note note in notes)
-            {
-                if (note.Status == "Pending")
-                {
-                    notesNotComplete.Add(note);
-                }
-            }
-            //notesNotComplete.Add(a);
+            //foreach (Note note in notes)
+            //{
+            //    if (note.Status == "Pending")
+            //    {
+            //        notesNotComplete.Add(note);
+            //    }
+            //}
+            notesNotComplete.Add(a);
             IEnumerable<Note> notesUpdated = notesNotComplete;
             return notesUpdated;
         }

@@ -67,5 +67,10 @@ namespace GUI
                 ProfileNameTextBox.Foreground = System.Windows.Media.Brushes.Gray;
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

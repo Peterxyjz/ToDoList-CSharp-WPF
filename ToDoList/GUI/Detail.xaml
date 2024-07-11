@@ -45,7 +45,7 @@
             </ComboBox>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                <Button Content="Save" Width="100" Margin="5" Background="#4CAF50" Foreground="White" Click="SaveButton_Click"/>
+                <Button x:Name="SaveButton" Content="Save" Width="100" Margin="5" Background="#4CAF50" Foreground="White" Click="SaveButton_Click"/>
                 <Button Content="Cancel" Width="100" Margin="5" Background="#F44336" Foreground="White" Click="CancelButton_Click"/>
             </StackPanel>
         </StackPanel>

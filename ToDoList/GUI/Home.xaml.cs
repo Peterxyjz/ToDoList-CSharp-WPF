@@ -1,4 +1,5 @@
-﻿using Repositories.Entities;
+﻿using Repositories;
+using Repositories.Entities;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace GUI
 {
     public partial class Home : Window
     {
-        private readonly NoteService _noteService = new();
+        private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
 
         public Home()
         {

@@ -17,6 +17,7 @@ namespace GUI
 {
     public partial class Home : Window
     {
+        public Profile Profile { get; set; }
         public Home()
         {
             InitializeComponent();

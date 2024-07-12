@@ -15,9 +15,6 @@ namespace Services
         private readonly INoteRepository _noteRepo;
         public NoteService(INoteRepository noteRepo) {  _noteRepo = noteRepo; }
         //private ToDoListDbContext _dbContext;
-        public NoteService()
-        {
-        }
 
         public IEnumerable<Note> GetAllNotes()
         {
@@ -37,6 +34,7 @@ namespace Services
         public IEnumerable<Note> GetNotCompleteNotes()
         {
             IEnumerable<Note> notes = _noteRepo.GetAllNotes();
+            //IEnumerable<Note> notes = _noteRepo.GetNotesByProfileId();
             List<Note> notesNotComplete = new List<Note>();
             foreach (Note note in notes)
             {
@@ -64,5 +62,10 @@ namespace Services
             Note deleteNote = _noteRepo.GetNoteById(id);
             _noteRepo.DeleteNote(deleteNote);
         }
+        public IEnumerable<Note> GetNotesByProfileId(int profileId)
+        {
+            return _noteRepo.GetNotesByProfileId(profileId);
+        }
+
     }
 }

@@ -27,11 +27,12 @@ namespace GUI
             InitializeComponent();
         }
 
-
+        public Profile LoginedAccount { get; set; } = null;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
+            //NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
         }
 
         
@@ -40,8 +41,9 @@ namespace GUI
         {
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes();
+            //NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes(LoginedAccount.ProfileId);
         }
-
+         
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
         {
             Detail detail = new Detail();
@@ -90,6 +92,8 @@ namespace GUI
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
         }
+
+        
 
     }
     

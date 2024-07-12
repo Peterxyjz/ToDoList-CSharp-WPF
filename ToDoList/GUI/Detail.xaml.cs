@@ -1,4 +1,5 @@
-﻿using Repositories.Entities;
+﻿using Repositories;
+using Repositories.Entities;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,12 @@ namespace GUI
 {
     public partial class Detail : Window
     {
-        private readonly NoteService _noteService = new();
+        private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
         private Note _noteToUpdate;
+        public Profile LoginedAccount { get; set; } = null;
         public Detail()
         {
             InitializeComponent();
-            ReminderTimeComboBox.SelectedIndex = 0; 
         }
         public Detail(Note note) : this()
         {
@@ -31,15 +32,7 @@ namespace GUI
 
             TitleTextBox.Text = _noteToUpdate.Title;
             DescriptionTextBox.Text = _noteToUpdate.Description;
-
-            
-                ReminderDatePicker.SelectedDate = _noteToUpdate.Time.Date;
-                if (ReminderTimeComboBox.SelectedItem != null)
-                {
-                    ReminderTimeComboBox.SelectedItem = ReminderTimeComboBox.Items.OfType<ComboBoxItem>()
-                        .FirstOrDefault(item => item.Content.ToString() == _noteToUpdate.Time.ToString("HH:mm"));
-                }
-
+            ReminderDateTimePicker.Value = _noteToUpdate.Time;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -50,42 +43,24 @@ namespace GUI
                 _noteToUpdate.Description = DescriptionTextBox.Text;
                 _noteToUpdate.ModifiedDate = DateTime.Now;
 
-                DateTime? selectedDate = ReminderDatePicker.SelectedDate;
-                string selectedTime = (ReminderTimeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-
-                if (selectedDate.HasValue && !string.IsNullOrEmpty(selectedTime))
-                {
-                    _noteToUpdate.Time = selectedDate.Value.Date.Add(TimeSpan.Parse(selectedTime));
-                }
-                else
-                {
-                    MessageBox.Show("Please select a valid date and time.");
-                    return;
-                }
+                
 
                 _noteService.UpdateNote(_noteToUpdate);
             }
             else 
             {
                 Note newNote = new Note();
-                newNote.NoteId = GenerateNewId();
+                //newNote.NoteId = GenerateNewId();
+                
                 newNote.Title = TitleTextBox.Text;
+                newNote.ProfileId = 3;
+                //newNote.ProfileId = LoginedAccount.ProfileId;
                 newNote.Description = DescriptionTextBox.Text;
                 newNote.ModifiedDate = DateTime.Now;
                 newNote.Status = "Pending";
+                newNote.Time = (DateTime)ReminderDateTimePicker.Value;
 
-                DateTime? selectedDate = ReminderDatePicker.SelectedDate;
-                string selectedTime = (ReminderTimeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
 
-                if (selectedDate.HasValue && !string.IsNullOrEmpty(selectedTime))
-                {
-                    newNote.Time = selectedDate.Value.Date.Add(TimeSpan.Parse(selectedTime));
-                }
-                else
-                {
-                    MessageBox.Show("Please select a valid date and time.");
-                    return;
-                }
 
 
                 _noteService.AddNote(newNote);

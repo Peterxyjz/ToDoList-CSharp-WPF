@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Repositories;
+using Repositories.Entities;
+using Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,38 +19,89 @@ namespace GUI
 {
     public partial class Detail : Window
     {
+        private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
+        private Note _noteToUpdate;
+        public Profile LoginedAccount { get; set; } = null;
         public Detail()
         {
             InitializeComponent();
-            ReminderTimeComboBox.SelectedIndex = 0; // Set default selected time
+        }
+        public Detail(Note note) : this()
+        {
+            _noteToUpdate = note;
+
+            TitleTextBox.Text = _noteToUpdate.Title;
+            DescriptionTextBox.Text = _noteToUpdate.Description;
+            ReminderDateTimePicker.Value = _noteToUpdate.Time;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Save logic here
-            string title = TitleTextBox.Text;
-            string description = DescriptionTextBox.Text;
-            DateTime? selectedDate = ReminderDatePicker.SelectedDate;
-            string selectedTime = (ReminderTimeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (_noteToUpdate != null)
+            {
+                _noteToUpdate.Title = TitleTextBox.Text;
+                _noteToUpdate.Description = DescriptionTextBox.Text;
+                _noteToUpdate.ModifiedDate = DateTime.Now;
 
-            if (selectedDate.HasValue && !string.IsNullOrEmpty(selectedTime))
-            {
-                DateTime reminderDateTime = selectedDate.Value.Date.Add(TimeSpan.Parse(selectedTime));
-                // Now you have the full reminder datetime in reminderDateTime
-                MessageBox.Show("Note saved successfully with reminder at " + reminderDateTime);
+                
+
+                _noteService.UpdateNote(_noteToUpdate);
             }
-            else
+            else 
             {
-                MessageBox.Show("Please select a valid date and time.");
+                Note newNote = new Note();
+                //newNote.NoteId = GenerateNewId();
+                
+                newNote.Title = TitleTextBox.Text;
+                newNote.ProfileId = 3;
+                //newNote.ProfileId = LoginedAccount.ProfileId;
+                newNote.Description = DescriptionTextBox.Text;
+                newNote.ModifiedDate = DateTime.Now;
+                newNote.Status = "Pending";
+                newNote.Time = (DateTime)ReminderDateTimePicker.Value;
+
+
+
+
+                _noteService.AddNote(newNote);
             }
+
 
             this.Close();
+
+
+            var mainWindow = Application.Current.Windows.OfType<Home>().FirstOrDefault();
+            if (mainWindow != null)
+            {
+                mainWindow.RefreshNotes(); 
+            }
         }
+
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            // Cancel logic here
             this.Close();
+        }
+
+        private  int currentId = 0;
+        public int GenerateNewId()
+        {
+            int newId;
+            List<Note> allNote = (List<Note>)_noteService.GetAllNotes();
+            List<int> existedId = new List<int>();
+            foreach (Note note in allNote)
+            {
+                existedId.Add(note.NoteId);
+            }
+
+            do
+            {
+                newId = ++currentId;
+            } while (existedId.Contains(newId));
+
+            existedId.Add(newId);
+
+            return newId;
         }
     }
 }

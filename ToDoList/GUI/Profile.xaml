@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="Profile" Height="600" Width="500" Background="#FFF0F0F0">
+        Title="Profile" Height="600" Width="500" Background="#FFF0F0F0" Loaded="Window_Loaded">
     <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="350">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="69*"/>
+        </Grid.RowDefinitions>
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Width="350" Margin="0,19,0,0" Grid.Row="1">
             <TextBlock Text="Enter Profile Name" FontWeight="Bold" Margin="0,0,0,10" />
             <TextBox x:Name="ProfileNameTextBox" Width="350" Height="40" Text="Enter profile name" Foreground="Gray" GotFocus="ProfileNameTextBox_GotFocus" LostFocus="ProfileNameTextBox_LostFocus"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">

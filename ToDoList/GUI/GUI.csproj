@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.6" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Services\Services.csproj">
       <Private>True</Private>
     </ProjectReference>
@@ -22,6 +27,12 @@
 
   <ItemGroup>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="icon.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

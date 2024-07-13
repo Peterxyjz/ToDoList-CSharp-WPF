@@ -1,4 +1,5 @@
-﻿using Repositories.Entities;
+﻿using Repositories;
+using Repositories.Entities;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -19,18 +20,24 @@ namespace GUI
 {
     public partial class Home : Window
     {
-        private readonly NoteService _noteService = new();
+        private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
 
         public Home()
         {
             InitializeComponent();
         }
 
+<<<<<<< HEAD
 
         private void AllBtn_Click(object sender, RoutedEventArgs e)
+=======
+        public Profile LoginedAccount { get; set; } = null;
+        private void Button_Click(object sender, RoutedEventArgs e)
+>>>>>>> 284e04c654df2d97a69dcceb496501dae8273884
         {
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
+            //NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
         }
         private void NotCompleteBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -42,11 +49,18 @@ namespace GUI
             Application.Current.Shutdown();
         }
 
-        private void NotesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        
+
+<<<<<<< HEAD
+=======
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            NotesDataGrid.ItemsSource = null;
+            NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes();
+            //NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes(LoginedAccount.ProfileId);
         }
-
+         
+>>>>>>> 284e04c654df2d97a69dcceb496501dae8273884
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
         {
             Detail detail = new Detail();
@@ -91,6 +105,8 @@ namespace GUI
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
         }
+
+        
 
     }
     

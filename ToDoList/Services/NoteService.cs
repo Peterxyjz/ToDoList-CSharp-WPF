@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Repositories;
 using Repositories.Entities;
 using Repositories.Interfaces;
 using System;
@@ -13,14 +14,15 @@ namespace Services
     {
         private readonly INoteRepository _noteRepo;
         public NoteService(INoteRepository noteRepo) {  _noteRepo = noteRepo; }
-
-        public NoteService()
-        {
-        }
+        //private ToDoListDbContext _dbContext;
 
         public IEnumerable<Note> GetAllNotes()
         {
             return _noteRepo.GetAllNotes();
+            //_dbContext = new ToDoListDbContext();
+            //return _dbContext.Notes
+            //    .Include(note => note.Profile)
+            //    .ToList();
         }
 
         public void CreateNote(Note x)
@@ -32,6 +34,7 @@ namespace Services
         public IEnumerable<Note> GetNotCompleteNotes()
         {
             IEnumerable<Note> notes = _noteRepo.GetAllNotes();
+            //IEnumerable<Note> notes = _noteRepo.GetNotesByProfileId();
             List<Note> notesNotComplete = new List<Note>();
             foreach (Note note in notes)
             {
@@ -59,5 +62,10 @@ namespace Services
             Note deleteNote = _noteRepo.GetNoteById(id);
             _noteRepo.DeleteNote(deleteNote);
         }
+        public IEnumerable<Note> GetNotesByProfileId(int profileId)
+        {
+            return _noteRepo.GetNotesByProfileId(profileId);
+        }
+
     }
 }

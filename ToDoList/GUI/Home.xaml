@@ -37,8 +37,7 @@
                 <Button x:Name="CreateNoteButton" Content="Create Note" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Background="#4CAF50" Foreground="White" Click="CreateNoteButton_Click"/>
             </Grid>
 
-            <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10" >
-                <!-- SelectionChanged="NotesDataGrid_SelectionChanged"-->
+            <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="2*" />
                     <DataGridTextColumn Header="Date - Time" Binding="{Binding Time}" Width="*" />

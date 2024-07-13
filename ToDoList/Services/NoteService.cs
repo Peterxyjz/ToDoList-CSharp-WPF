@@ -16,36 +16,30 @@ namespace Services
         public NoteService(INoteRepository noteRepo) {  _noteRepo = noteRepo; }
         //private ToDoListDbContext _dbContext;
 
-        public IEnumerable<Note> GetAllNotes()
+        public IEnumerable<Note> GetAllNotes(int profileId, DateTime time)
         {
-            return _noteRepo.GetAllNotes();
+            return _noteRepo.GetNotesByProfileIdAndTime(profileId, time);
             //_dbContext = new ToDoListDbContext();
             //return _dbContext.Notes
             //    .Include(note => note.Profile)
             //    .ToList();
         }
 
-        public void CreateNote(Note x)
-        {
-            _noteRepo.AddNote(x);   
-        }
-
         //Note a = new Note { Title = "aa", Description = "fcihsdvcbi", Time = DateTime.Now };
-        public IEnumerable<Note> GetNotCompleteNotes()
+        public IEnumerable<Note> GetNotCompleteNotes(int profileId, DateTime time)
         {
-            IEnumerable<Note> notes = _noteRepo.GetAllNotes();
+            IEnumerable<Note> notes = GetAllNotes(profileId, time);
             //IEnumerable<Note> notes = _noteRepo.GetNotesByProfileId();
             List<Note> notesNotComplete = new List<Note>();
             foreach (Note note in notes)
             {
-                if (note.Status == "Pending")
+                if (note.Status == "False")
                 {
                     notesNotComplete.Add(note);
                 }
             }
             //notesNotComplete.Add(a);
-            IEnumerable<Note> notesUpdated = notesNotComplete;
-            return notesUpdated;
+            return notesNotComplete;
         }
 
         public void AddNote(Note note)
@@ -62,10 +56,5 @@ namespace Services
             Note deleteNote = _noteRepo.GetNoteById(id);
             _noteRepo.DeleteNote(deleteNote);
         }
-        public IEnumerable<Note> GetNotesByProfileId(int profileId)
-        {
-            return _noteRepo.GetNotesByProfileId(profileId);
-        }
-
     }
 }

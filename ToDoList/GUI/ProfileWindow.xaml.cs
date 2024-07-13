@@ -17,18 +17,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore;
 using Repositories.Entities;
+using System.Diagnostics;
 
 namespace GUI
 {
     /// <summary>
     /// Interaction logic for Profile.xaml
     /// </summary>
-    public partial class ProfileScreen : Window
+    public partial class ProfileWindow : Window
     {
         private readonly ProfileService _profileService;
         public ObservableCollection<Profile> Profiles { get; set; }
 
-        public ProfileScreen()
+        public ProfileWindow()
         {
             InitializeComponent();
             IProfileRepository profileRepo = new ProfileRepository(new ToDoListDbContext());
@@ -104,8 +105,8 @@ namespace GUI
             if (ProfilesListBox.SelectedItem != null)
             {
                 Profile selectedProfile = ((Profile)ProfilesListBox.SelectedItem);
-                Home home = new Home();
-                home.Profile = selectedProfile;
+                HomeWindow home = new HomeWindow();
+                home.LoginedAccount = selectedProfile;
                 this.Close();
                 home.Show();
             }

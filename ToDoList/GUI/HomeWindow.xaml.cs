@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace GUI
 {
@@ -25,85 +26,62 @@ namespace GUI
         public HomeWindow()
         {
             InitializeComponent();
-            SelectedDate = DateTime.Today;
-            Tab = true;
-            DataContext = this;
         }
 
-        private Profile? _loginedAccount;
-
-        public Profile LoginedAccount
-        {
-            get { return _loginedAccount; }
-            set
-            {
-                _loginedAccount = value;
-                if (_loginedAccount != null)
-                {
-                    WelcomeLabel.Content = $"{_loginedAccount.ProfileName}, what do you have planned for today?";
-                }
-            }
-        }
-
-        public DateTime SelectedDate { get; set; }
-
-        public Boolean Tab { get; set; }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
-        }
-
-        private void CalendarControl_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectedDate = CalendarControl.SelectedDate.GetValueOrDefault();
-            if (Tab)
-            {
-                NotesDataGrid.ItemsSource = null;
-                NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
-
-            }
-            else
-            {
-                NotesDataGrid.ItemsSource = null;
-                NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes(LoginedAccount.ProfileId, SelectedDate);
-
-            }
-        }
+        public Profile LoginedAccount { get; set; } = null;
 
 
         private void AllBtn_Click(object sender, RoutedEventArgs e)
         {
-            Tab = true;
             NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
-            //NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
+            NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
+            //var allNotes = _noteService.GetAllNotes();
+            //NotesDataGrid.ItemsSource = allNotes;
+
+        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string status)
+            {
+                return status == "Completed";
+            }
+            return false; // Default to false if not "Completed"
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
         private void NotCompleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            Tab = false;
-            NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes(LoginedAccount.ProfileId, SelectedDate);
+            //NotesDataGrid.ItemsSource = null;
+            //NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes();
             //NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes(LoginedAccount.ProfileId);
+            IEnumerable<Note> notes = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
+            List<Note> notesPending = new List<Note>();
+
+            foreach (Note note in notes)
+            {
+                if (note.Status == "Pending")
+                {
+                    notesPending.Add(note);
+                }
+            }
+            NotesDataGrid.ItemsSource = null;
+            NotesDataGrid.ItemsSource = notesPending;
         }
         private void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
         {
             DetailWindow detail = new DetailWindow();
+            detail.LoginedAccount = LoginedAccount;
             detail.ShowDialog();
-            NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
-        }
-
-        private void ChageProfileButton_Click(object sender, RoutedEventArgs e)
-        {
-            ProfileWindow profileWindow = new ProfileWindow();
-            profileWindow.Show();
-            this.Close();
+            RefreshNotes();
         }
 
 
@@ -116,9 +94,28 @@ namespace GUI
                 DetailWindow detail = new DetailWindow(note);
                 detail.ShowDialog();
 
-                NotesDataGrid.ItemsSource = null;
-                NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
+                RefreshNotes();
             }
+        }
+
+        private void StatusButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var note = button.DataContext as Note;
+            if (note != null)
+            {
+                if (note.Status == "Completed")
+                {
+                    note.Status = "Pending";
+                }
+                else
+                {
+                    note.Status = "Completed";
+                }
+                _noteService.UpdateNote(note);
+                RefreshNotes();
+            }
+
         }
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -137,13 +134,40 @@ namespace GUI
                 }
             }
         }
+
+        private void DetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var note = button.DataContext as Note;
+            if (note != null)
+            {
+                DetailWindow detail = new DetailWindow();
+                detail.Note = note;
+                detail.NoteDetail = "true";
+                detail.ShowDialog();
+
+                RefreshNotes();
+            }
+        }
         public void RefreshNotes()
         {
             NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
+            NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
         }
 
+        private void NotesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.Column is DataGridCheckBoxColumn && e.EditingElement is CheckBox checkBox)
+            {
+                var note = e.Row.Item as Note;
+                if (note != null)
+                {
+                    string status = checkBox.IsChecked == true ? "Completed" : "Pending";
+                    MessageBox.Show($"Note '{note.Title}' has been {status}.", "Status Changed", MessageBoxButton.OK, MessageBoxImage.Information);
+                    note.Status = status;
+                    _noteService.UpdateNote(note);
+                }
+            }
+        }
     }
-
-
 }

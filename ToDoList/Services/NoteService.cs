@@ -56,5 +56,17 @@ namespace Services
             Note deleteNote = _noteRepo.GetNoteById(id);
             _noteRepo.DeleteNote(deleteNote);
         }
+        public IEnumerable<Note> GetNotesByProfileId(int profileId)
+        {
+            return _noteRepo.GetNotesByProfileId(profileId);
+        }
+        public IEnumerable<Note> GetNotes()
+        {
+            return _noteRepo.GetAllNotes();
+            //_dbContext = new ToDoListDbContext();
+            //return _dbContext.Notes
+            //    .Include(note => note.Profile)
+            //    .ToList();
+        }
     }
 }

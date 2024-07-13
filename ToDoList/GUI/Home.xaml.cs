@@ -1,4 +1,5 @@
-﻿using Repositories.Entities;
+﻿using Repositories;
+using Repositories.Entities;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -19,31 +20,30 @@ namespace GUI
 {
     public partial class Home : Window
     {
-        private readonly NoteService _noteService = new();
+        private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
 
         public Home()
         {
             InitializeComponent();
         }
 
-
+        public Profile LoginedAccount { get; set; } = null;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
+            //NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
         }
 
-        private void NotesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes();
+            //NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes(LoginedAccount.ProfileId);
         }
-
+         
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
         {
             Detail detail = new Detail();
@@ -92,6 +92,8 @@ namespace GUI
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
         }
+
+        
 
     }
     

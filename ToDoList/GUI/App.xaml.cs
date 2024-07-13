@@ -27,7 +27,7 @@ namespace GUI
 
         protected void NotifyIcon_Click(object sender, EventArgs e)
         {
-            Profile home = new();
+            ProfileWindow home = new();
             home.WindowState = WindowState.Normal;
             home.Activate();
         }

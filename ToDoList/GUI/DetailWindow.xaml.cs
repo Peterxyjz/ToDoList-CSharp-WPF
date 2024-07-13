@@ -17,16 +17,16 @@ using System.Windows.Shapes;
 
 namespace GUI
 {
-    public partial class Detail : Window
+    public partial class DetailWindow : Window
     {
         private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
         private Note _noteToUpdate;
         public Profile LoginedAccount { get; set; } = null;
-        public Detail()
+        public DetailWindow()
         {
             InitializeComponent();
         }
-        public Detail(Note note) : this()
+        public DetailWindow(Note note) : this()
         {
             _noteToUpdate = note;
 
@@ -57,7 +57,7 @@ namespace GUI
                 //newNote.ProfileId = LoginedAccount.ProfileId;
                 newNote.Description = DescriptionTextBox.Text;
                 newNote.ModifiedDate = DateTime.Now;
-                newNote.Status = "Pending";
+                newNote.Status = "False";
                 newNote.Time = (DateTime)ReminderDateTimePicker.Value;
 
 
@@ -70,7 +70,7 @@ namespace GUI
             this.Close();
 
 
-            var mainWindow = Application.Current.Windows.OfType<Home>().FirstOrDefault();
+            var mainWindow = Application.Current.Windows.OfType<HomeWindow>().FirstOrDefault();
             if (mainWindow != null)
             {
                 mainWindow.RefreshNotes(); 
@@ -83,25 +83,5 @@ namespace GUI
             this.Close();
         }
 
-        private  int currentId = 0;
-        public int GenerateNewId()
-        {
-            int newId;
-            List<Note> allNote = (List<Note>)_noteService.GetAllNotes();
-            List<int> existedId = new List<int>();
-            foreach (Note note in allNote)
-            {
-                existedId.Add(note.NoteId);
-            }
-
-            do
-            {
-                newId = ++currentId;
-            } while (existedId.Contains(newId));
-
-            existedId.Add(newId);
-
-            return newId;
-        }
     }
 }

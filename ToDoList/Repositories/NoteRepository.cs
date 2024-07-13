@@ -109,5 +109,13 @@ namespace Repositories
                 || note.Title.Contains(searchValue)
                 || note.Description.Contains(searchValue)).ToList();
         }
+
+        public IEnumerable<Note> GetNotesByProfileIdAndTime(int profileId, DateTime time)
+        {
+            return _dbContext.Notes
+                .Where(note => note.ProfileId == profileId && note.Time.Date == time.Date)
+                .ToList();
+        }
     }
 }
+

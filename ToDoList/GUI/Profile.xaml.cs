@@ -81,6 +81,10 @@ namespace GUI
             }
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void ProfilesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 

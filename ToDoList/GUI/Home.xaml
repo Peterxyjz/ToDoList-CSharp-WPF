@@ -15,9 +15,9 @@
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="#F0F0F0" VerticalAlignment="Stretch">
             <Calendar x:Name="CalendarControl" HorizontalAlignment="Stretch"/>
-            <Button Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White"/>
-            <Button Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black"/>
-            <Button Content="Quit" Margin="0 15" Height="40" Background="#F44336" Foreground="White"/>
+            <Button x:Name="AllBtn" Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White" Click="AllBtn_Click"/>
+            <Button x:Name="NotCompleteBtn" Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black" Click="NotCompleteBtn_Click"/>
+            <Button x:Name="QuitBtn" Content="Quit" Margin="0 15" Height="40" Background="#F44336" Foreground="White" Click="QuitBtn_Click"/>
         </StackPanel>
 
         <!-- Separator Line -->
@@ -34,15 +34,24 @@
 
             <Grid>
                 <Label Content="Hello, Profile_name" FontWeight="Bold" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"/>
-                <Button Content="Create Note" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Background="#4CAF50" Foreground="White"/>
+                <Button x:Name="CreateNoteButton" Content="Create Note" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Background="#4CAF50" Foreground="White" Click="CreateNoteButton_Click"/>
             </Grid>
 
             <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="2*" />
                     <DataGridTextColumn Header="Date - Time" Binding="{Binding Time}" Width="*" />
-                    <DataGridCheckBoxColumn Header="Status" Binding="{Binding Status}" Width="*" />
-                    
+                    <DataGridCheckBoxColumn Header="Status" Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+                    <DataGridTemplateColumn Header="Actions" Width="*" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Update" Click="UpdateButton_Click" Margin="5"/>
+                                    <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

@@ -27,21 +27,24 @@ namespace GUI
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AllBtn_Click(object sender, RoutedEventArgs e)
         {
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
+        }
+        private void NotCompleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NotesDataGrid.ItemsSource = null;
+            NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes();
+        }
+        private void QuitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void NotesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetNotCompleteNotes();
         }
 
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
@@ -52,10 +55,6 @@ namespace GUI
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes();
         }
 
-        private void QuitButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {

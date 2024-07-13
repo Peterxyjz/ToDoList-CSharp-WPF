@@ -15,9 +15,9 @@
         <!-- Sidebar -->
         <StackPanel Grid.Column="0" Background="#F0F0F0" VerticalAlignment="Stretch">
             <Calendar x:Name="CalendarControl" HorizontalAlignment="Stretch"/>
-            <Button x:Name="GetAllButton" Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White" Click="Button_Click"/>
-            <Button x:Name="NotCompleteButton" Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black" Click="Button_Click_1"/>
-            <Button x:Name="QuitButton" Content="Quit" Margin="0 15" Height="40" Background="#F44336" Foreground="White" Click="QuitButton_Click"/>
+            <Button x:Name="AllBtn" Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White" Click="AllBtn_Click"/>
+            <Button x:Name="NotCompleteBtn" Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black" Click="NotCompleteBtn_Click"/>
+            <Button x:Name="QuitBtn" Content="Quit" Margin="0 15" Height="40" Background="#F44336" Foreground="White" Click="QuitBtn_Click"/>
         </StackPanel>
 
         <!-- Separator Line -->

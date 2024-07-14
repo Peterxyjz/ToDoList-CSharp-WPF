@@ -14,32 +14,32 @@ namespace Services
     {
         private readonly INoteRepository _noteRepo;
         public NoteService(INoteRepository noteRepo) {  _noteRepo = noteRepo; }
-        //private ToDoListDbContext _dbContext;
-
-        public IEnumerable<Note> GetAllNotes(int profileId, DateTime time)
+        public IEnumerable<Note> GetNotes()
         {
-            return _noteRepo.GetNotesByProfileIdAndTime(profileId, time);
-            //_dbContext = new ToDoListDbContext();
-            //return _dbContext.Notes
-            //    .Include(note => note.Profile)
-            //    .ToList();
+            return _noteRepo.GetAllNotes();
         }
-
-        //Note a = new Note { Title = "aa", Description = "fcihsdvcbi", Time = DateTime.Now };
-        public IEnumerable<Note> GetNotCompleteNotes(int profileId, DateTime time)
+        public IEnumerable<Note> GetNotesByProfileId(int profileId)
         {
-            IEnumerable<Note> notes = GetAllNotes(profileId, time);
-            //IEnumerable<Note> notes = _noteRepo.GetNotesByProfileId();
+            return _noteRepo.GetNotesByProfileId(profileId);
+        }
+        public IEnumerable<Note> GetNotCompletedNotes(int profileId)
+        {
+            IEnumerable<Note> notes = GetNotesByProfileId(profileId);
             List<Note> notesNotComplete = new List<Note>();
             foreach (Note note in notes)
             {
-                if (note.Status == "False")
+                if (note.Status == "Pending")
                 {
                     notesNotComplete.Add(note);
                 }
             }
-            //notesNotComplete.Add(a);
             return notesNotComplete;
+        }
+
+        public IEnumerable<Note> GetNotesByProfileIdAndTime(int profileId, DateTime time)
+        {
+            IEnumerable<Note> notes = _noteRepo.GetNotesByProfileIdAndTime(profileId, time);
+            return notes;
         }
 
         public void AddNote(Note note)
@@ -56,5 +56,6 @@ namespace Services
             Note deleteNote = _noteRepo.GetNoteById(id);
             _noteRepo.DeleteNote(deleteNote);
         }
+
     }
 }

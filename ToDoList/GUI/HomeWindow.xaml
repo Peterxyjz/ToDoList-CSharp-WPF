@@ -60,13 +60,13 @@
                 </DataGrid.CellStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Date - Time" Binding="{Binding Time}" Width="1.5*" IsReadOnly="True"/>
-                    <DataGridTemplateColumn Header="Actions" Width="2*" >
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="2*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Date - Time" Binding="{Binding Time}" Width="2*" IsReadOnly="True"/>
+                    <DataGridTemplateColumn Header="Actions" Width="1*" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Update" Click="UpdateButton_Click" Background="White" Foreground="Orange"
+                                    <Button Content="Detail" Click="UpdateButton_Click" Background="White" Foreground="Orange"
                                         BorderThickness="1" BorderBrush="Orange"
                                         Padding="5"
                                             Margin="5"/>
@@ -74,10 +74,7 @@
                                         BorderThickness="1" BorderBrush="Red"
                                         Padding="5"
                                             Margin="5"/>
-                                    <Button Content="Detail" Click="DetailButton_Click" Background="White" Foreground="Red"
-                                            BorderThickness="1" BorderBrush="Red"
-                                            Padding="5"
-                                            Margin="5"/>
+                                    
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

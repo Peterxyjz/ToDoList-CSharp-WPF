@@ -19,7 +19,8 @@ namespace GUI
 {
     public partial class DetailWindow : Window
     {
-        private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
+        private readonly NoteRepository _noteRepository = new NoteRepository(new ToDoListDbContext());
+        private readonly NoteService _noteService;
         private Note _noteToUpdate;
         public Profile LoginedAccount { get; set; } = null;
         public string NoteDetail { get; set; } = null;
@@ -27,6 +28,7 @@ namespace GUI
         public DetailWindow()
         {
             InitializeComponent();
+            _noteService = new NoteService(_noteRepository);
         }
         public DetailWindow(Note note) : this()
         {

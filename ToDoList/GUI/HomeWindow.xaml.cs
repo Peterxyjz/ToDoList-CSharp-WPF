@@ -21,11 +21,13 @@ namespace GUI
 {
     public partial class HomeWindow : Window
     {
-        private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
+        private readonly NoteRepository _noteRepository = new NoteRepository(new ToDoListDbContext());
+        private readonly NoteService _noteService;
 
         public HomeWindow()
         {
             InitializeComponent();
+            _noteService = new NoteService(_noteRepository);
         }
 
         public Profile LoginedAccount { get; set; } = null;

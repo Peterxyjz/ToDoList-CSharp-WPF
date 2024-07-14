@@ -1,4 +1,5 @@
-﻿using Repositories;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Repositories;
 using Repositories.Entities;
 using Services;
 using System;
@@ -16,18 +17,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace GUI
 {
     public partial class HomeWindow : Window
     {
         private readonly NoteService _noteService = new(new NoteRepository(new ToDoListDbContext()));
 
+        private Timer _timer;
+        private List<DateTime> _notificationTimes;
+        private int Id;
         public HomeWindow()
         {
             InitializeComponent();
             SelectedDate = DateTime.Today;
             Tab = true;
             DataContext = this;
+
+            InitializeNotificationTimes();
+            SetupTimer();
+        }
+
+        private void ShowNotification(DateTime time)
+        {
+            new ToastContentBuilder()
+            .AddArgument("action", "viewConversation")
+            .AddArgument("conversationId", 9813)
+            .AddText("Title")
+            .AddText("Description")
+            .Show(); // Not seeing the Show() method? Make sure you have v
         }
 
         private Profile? _loginedAccount;
@@ -45,12 +63,15 @@ namespace GUI
             }
         }
 
+
+
         public DateTime SelectedDate { get; set; }
 
         public Boolean Tab { get; set; }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            Id = LoginedAccount.ProfileId;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
         }
 
@@ -141,6 +162,40 @@ namespace GUI
         {
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = _noteService.GetAllNotes(LoginedAccount.ProfileId, SelectedDate);
+        }
+
+        private void InitializeNotificationTimes()
+        {
+            // Danh sách các thời gian để hiện thông báo
+            //_notificationTimes = _noteService.GetNotesByProfileID(Id);
+            _notificationTimes = new List<DateTime>
+            {
+            new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 00, 37, 00), // 12h hôm nay
+            new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 00, 38, 00), // 14:30 hôm nay
+            // Thêm các thời gian khác vào đây
+            };
+
+        }
+
+        private void SetupTimer()
+        {
+            //OntimedEvent là làm call back để nói gọi đi gọi lại
+
+            _timer = new Timer(OnTimedEvent, null, 0, 1000); // Kiểm tra mỗi giây
+        }
+
+        private void OnTimedEvent(object sender)
+        {
+            DateTime now = DateTime.Now;
+
+            foreach (var time in _notificationTimes.ToList())
+            {
+                if (now.Hour == time.Hour && now.Minute == time.Minute && now.Second == time.Second)
+                {
+                    Dispatcher.BeginInvoke(() => ShowNotification(time));
+                    _notificationTimes.Remove(time); // Xóa thời gian đã thông báo
+                }
+            }
         }
 
     }

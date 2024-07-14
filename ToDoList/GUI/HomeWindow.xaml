@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Home" Height="600" Width="1048" Background="#FFF0F0F0" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                    <Setter Property="IsChecked" Value="True"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="Not Completed">
+                    <Setter Property="IsChecked" Value="False"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -17,7 +29,7 @@
         <StackPanel Grid.Column="0" Background="#F0F0F0" VerticalAlignment="Stretch">
             <Calendar x:Name="CalendarControl" HorizontalAlignment="Stretch" SelectedDatesChanged="CalendarControl_SelectedDatesChanged" Focusable="False"/>
             <Button x:Name="AllBtn" Content="All" Margin="0 15" Height="40" Background="#4CAF50" Foreground="White" Click="AllBtn_Click"/>
-            <Button x:Name="NotCompleteBtn" Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black" Click="NotCompleteBtn_Click"/>
+            <Button x:Name="NotCompletedBtn" Content="Not Complete" Margin="0 15" Height="40" Background="#FFC107" Foreground="Black" Click="NotCompletedBtn_Click"/>
             <Button x:Name="QuitBtn" Content="Quit" Margin="0 15" Height="40" Background="#F44336" Foreground="White" Click="QuitBtn_Click"/>
         </StackPanel>
 
@@ -39,7 +51,7 @@
                 <Button x:Name="ChageProfileButton" Content="Change Profile" Margin="0,10,127,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="100" Background="#4CAF50" Foreground="White" Click="ChageProfileButton_Click"/>
             </Grid>
 
-            <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False" RowBackground="White" AlternatingRowBackground="#F0F0F0">
+            <DataGrid x:Name="NotesDataGrid" Grid.Row="1" AutoGenerateColumns="False" Margin="10" CanUserAddRows="False" RowBackground="White" AlternatingRowBackground="#F0F0F0" CellEditEnding="NotesDataGrid_CellEditEnding">
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell">
                         <Setter Property="Background" Value="Transparent"/>
@@ -48,16 +60,39 @@
                 </DataGrid.CellStyle>
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="2*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Date - Time" Binding="{Binding Time}" Width="1.5*" IsReadOnly="True"/>
-                    <DataGridCheckBoxColumn Header="Status" Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="*" />
-                    <DataGridTemplateColumn Header="Actions" Width="*" >
+                    <DataGridTemplateColumn Header="Actions" Width="2*" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Update" Click="UpdateButton_Click" Margin="5"/>
-                                    <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>
+                                    <Button Content="Update" Click="UpdateButton_Click" Background="White" Foreground="Orange"
+                                        BorderThickness="1" BorderBrush="Orange"
+                                        Padding="5"
+                                            Margin="5"/>
+                                    <Button Content="Delete" Click="DeleteButton_Click" Background="White" Foreground="Red"
+                                        BorderThickness="1" BorderBrush="Red"
+                                        Padding="5"
+                                            Margin="5"/>
+                                    <Button Content="Detail" Click="DetailButton_Click" Background="White" Foreground="Red"
+                                            BorderThickness="1" BorderBrush="Red"
+                                            Padding="5"
+                                            Margin="5"/>
                                 </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Status">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Status}"
+                                        Click="StatusButton_Click" 
+                                        Background="White" 
+                                        Foreground="Black"
+                                        BorderThickness="1"
+                                        BorderBrush="Black"
+                                        Padding="5" 
+                                        Margin="5"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

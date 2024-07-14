@@ -1,0 +1,37 @@
+<Window x:Class="GUI.ProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Profile" Height="696" Width="500" Background="#FFF0F0F0">
+    <Grid Height="348" VerticalAlignment="Top">
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Width="350" Margin="0,24,0,0">
+            <TextBlock Text="Enter Profile Name" FontWeight="Bold" Margin="0,0,0,10" Height="20" />
+            <TextBox x:Name="ProfileNameTextBox" Width="350" Height="40" Text="Enter profile name" Foreground="Gray" GotFocus="ProfileNameTextBox_GotFocus" LostFocus="ProfileNameTextBox_LostFocus"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <Button x:Name="CreateProfileButton" Content="Create Profile" Width="150" Height="40" Click="CreateProfileButton_Click" Margin="0,0,10,0"/>
+                <Button x:Name="ExitButton" Content="Exit" Width="150" Height="40" Margin="0,0,10,0" Click="ExitButton_Click" Background="Red"/>
+            </StackPanel>
+            <TextBlock Margin="10,20,0,10" FontWeight="Bold" Height="17"><Run Text="Profiles:"/><LineBreak/><Run/></TextBlock>
+            <Label Content="*Dobule click to go to your profile&#xD;&#xA;*Right click to delete profile" Height="30" FontSize="8"/>
+            <ListBox x:Name="ProfilesListBox" Width="350" Height="101" ItemsSource="{Binding Profiles}"  PreviewMouseRightButtonDown="ProfilesListBox_MouseRightButtonDown" MouseDoubleClick="ProfilesListBox_MouseDoubleClick" SelectionChanged="ProfilesListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="Key" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding ProfileName}" FontWeight="Bold"  />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+
+        </StackPanel>
+    </Grid>
+</Window>

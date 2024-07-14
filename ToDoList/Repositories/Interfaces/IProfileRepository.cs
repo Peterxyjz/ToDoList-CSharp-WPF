@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repositories.Interfaces
 {
-    internal interface IProfileRepository
+    public interface IProfileRepository
     {
         bool DeleteProfile(Profile profile);
         bool UpdateProfile(Profile profile);

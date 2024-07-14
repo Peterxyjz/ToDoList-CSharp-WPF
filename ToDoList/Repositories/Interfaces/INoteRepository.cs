@@ -15,6 +15,7 @@ namespace Repositories.Interfaces
         Note? GetNoteById(int id);
         IEnumerable<Note> GetAllNotes();
         IEnumerable<Note> GetNotesByProfileId(int profileId);
+        IEnumerable<Note> GetNotesByProfileIdAndTime(int profileId, DateTime time);
         IEnumerable<Note> SearchingNotes(string searchValue);
         //IEnumerable<Note> GetNotesByStatus(string status);
     }

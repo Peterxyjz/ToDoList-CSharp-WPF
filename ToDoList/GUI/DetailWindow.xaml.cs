@@ -61,6 +61,7 @@ namespace GUI
                 _noteToUpdate.Title = TitleTextBox.Text;
                 _noteToUpdate.Description = DescriptionTextBox.Text;
                 _noteToUpdate.ModifiedDate = DateTime.Now;
+                _noteToUpdate.Time = (DateTime)ReminderDateTimePicker.Value;
                 _noteService.UpdateNote(_noteToUpdate);
             }
             else

@@ -59,14 +59,22 @@ namespace GUI
 
         private void AllBtn_Click(object sender, RoutedEventArgs e)
         {
+            var notes = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId)
+                                     .OrderByDescending(note => note.ModifiedDate)
+                                     .ToList();
+
             NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
+            NotesDataGrid.ItemsSource = notes;
         }
 
         private void NotCompletedBtn_Click(object sender, RoutedEventArgs e)
         {
+            var notes = _noteService.GetNotCompletedNotes(LoginedAccount.ProfileId)
+                                     .OrderByDescending(note => note.ModifiedDate)
+                                     .ToList();
+
             NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetNotCompletedNotes(LoginedAccount.ProfileId);
+            NotesDataGrid.ItemsSource = notes;
         }
         private void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -147,25 +155,15 @@ namespace GUI
         {
             throw new NotImplementedException();
         }
-        private void DetailButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            var note = button.DataContext as Note;
-            if (note != null)
-            {
-                DetailWindow detail = new DetailWindow();
-                detail.Note = note;
-                detail.NoteDetail = "true";
-                detail.ShowDialog();
-
-                RefreshNotes();
-            }
-        }
 
         public void RefreshNotes()
         {
+            var notes = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId)
+                                     .OrderByDescending(note => note.ModifiedDate)
+                                     .ToList();
+
             NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId);
+            NotesDataGrid.ItemsSource = notes;
         }
         private void NotesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {

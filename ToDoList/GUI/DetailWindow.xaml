@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Detail" Height="400" Width="600" Background="#FFF0F0F0">
+        Title="Note details" Height="400" Width="600" Background="#FFF0F0F0">
     <Grid>
         <StackPanel Margin="10">
             <Label Content="Title" FontWeight="Bold"/>

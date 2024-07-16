@@ -16,6 +16,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
+
 namespace GUI
 {
     public partial class HomeWindow : Window
@@ -25,6 +27,7 @@ namespace GUI
         private Timer _timer;
         private List<DateTime> _notificationTimes;
         private int Id;
+        private bool isShowingNotCompletedNotes = false;
 
         public HomeWindow()
         {
@@ -73,26 +76,18 @@ namespace GUI
             NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileIdAndTime(LoginedAccount.ProfileId, selectedDate);
         }
 
-
         private void AllBtn_Click(object sender, RoutedEventArgs e)
         {
-            var notes = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId)
-                                     .OrderByDescending(note => note.ModifiedDate)
-                                     .ToList();
-
-            NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = notes;
+            isShowingNotCompletedNotes = false;
+            RefreshNotes();
         }
 
         private void NotCompletedBtn_Click(object sender, RoutedEventArgs e)
         {
-            var notes = _noteService.GetNotCompletedNotes(LoginedAccount.ProfileId)
-                                     .OrderByDescending(note => note.ModifiedDate)
-                                     .ToList();
-
-            NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = notes;
+            isShowingNotCompletedNotes = true;
+            RefreshNotes();
         }
+
         private void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -112,7 +107,6 @@ namespace GUI
             this.Close();
         }
 
-
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -123,6 +117,7 @@ namespace GUI
                 detail.ShowDialog();
             }
         }
+
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -140,22 +135,26 @@ namespace GUI
                 }
             }
         }
+
         private void StatusButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var note = button.DataContext as Note;
             if (note != null)
             {
-                if (note.Status == "Completed")
+                note.Status = note.Status == "Completed" ? "Pending" : "Completed";
+                _noteService.UpdateNote(note);
+
+                if (isShowingNotCompletedNotes)
                 {
-                    note.Status = "Pending";
+                    NotesDataGrid.ItemsSource = _noteService.GetNotCompletedNotes(LoginedAccount.ProfileId)
+                                                            .OrderByDescending(n => n.ModifiedDate)
+                                                            .ToList();
                 }
                 else
                 {
-                    note.Status = "Completed";
+                    RefreshNotes();
                 }
-                _noteService.UpdateNote(note);
-                RefreshNotes();
             }
         }
 
@@ -175,13 +174,18 @@ namespace GUI
 
         public void RefreshNotes()
         {
-            var notes = _noteService.GetNotesByProfileId(LoginedAccount.ProfileId)
-                                     .OrderByDescending(note => note.ModifiedDate)
-                                     .ToList();
+            var notes = isShowingNotCompletedNotes
+                        ? _noteService.GetNotCompletedNotes(LoginedAccount.ProfileId)
+                                       .OrderByDescending(note => note.ModifiedDate)
+                                       .ToList()
+                        : _noteService.GetNotesByProfileId(LoginedAccount.ProfileId)
+                                      .OrderByDescending(note => note.ModifiedDate)
+                                      .ToList();
 
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = notes;
         }
+
         private void NotesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (e.Column is DataGridCheckBoxColumn && e.EditingElement is CheckBox checkBox)

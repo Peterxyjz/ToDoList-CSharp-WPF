@@ -1,22 +1,36 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
-using Forms = System.Windows.Forms;
 using Repositories.Entities;
+using System.Windows.Forms;
 
 namespace GUI
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
-        private readonly Forms.NotifyIcon _notifyIcon;
+        private readonly NotifyIcon _notifyIcon;
+        private readonly ContextMenuStrip _contextMenuStrip;
+
         public App()
         {
             _notifyIcon = new();
+            _contextMenuStrip = new();
+            var menuItemExit = new ToolStripMenuItem("Exit");
+            menuItemExit.Click += MenuItemExit_Click;
+
+            _contextMenuStrip.Items.Add(menuItemExit);
+            _notifyIcon.ContextMenuStrip = _contextMenuStrip;
 
         }
+        private void MenuItemExit_Click(object sender, EventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
+
+
         protected override void OnStartup(StartupEventArgs e)
         {
             _notifyIcon.Icon = new System.Drawing.Icon("icon.ico");
@@ -28,17 +42,13 @@ namespace GUI
 
         protected void NotifyIcon_Click(object sender, EventArgs e)
         {
-            ProfileWindow home = new();
-            home.WindowState = WindowState.Normal;
-            home.Activate();
+            HomeWindow homeWindow = new();
+            if (!HomeWindow.isShow && ProfileInfo.UserProfile != null)
+            {
+                HomeWindow.isShow = true;
+                homeWindow.Show();
+            }
         }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            _notifyIcon.Dispose();
-            base.OnExit(e);
-        }
-
 
     }
 

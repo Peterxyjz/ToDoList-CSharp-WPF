@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
+using System.ComponentModel;
 
 namespace GUI
 {
@@ -29,6 +30,7 @@ namespace GUI
         private int Id;
         private bool isShowingNotCompletedNotes = false;
 
+        public static bool isShow = false;
 
         public HomeWindow()
         {
@@ -38,6 +40,13 @@ namespace GUI
 
             InitializeNotificationTimes();
             SetupTimer();
+            Closing += (sender, e) =>
+            {
+                e.Cancel = true;
+                isShow = false;
+                this.Hide();
+
+            };
         }
 
         private void ShowNotification(DateTime time)
@@ -53,7 +62,7 @@ namespace GUI
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            WelcomeLabel.Content = $"{ProfileInfo.UserProfile.ProfileName}";
+            WelcomeLabel.Content = $"What have you planned for today, {ProfileInfo.UserProfile.ProfileName}?";
             RefreshNotes();
         }
 
@@ -222,7 +231,6 @@ namespace GUI
                 }
             }
         }
-
     }
 
 

@@ -29,6 +29,8 @@ namespace GUI
         private readonly ProfileService _profileService;
         public ObservableCollection<Profile> Profiles { get; set; }
 
+        public static bool isShow = false;
+
         public ProfileWindow()
         {
             InitializeComponent();
@@ -38,6 +40,10 @@ namespace GUI
             Profiles = new ObservableCollection<Profile>();
             DataContext = this;
             LoadProfileListBox();
+            Closing += (sender, e) =>
+            {
+                Application.Current.Shutdown();
+            };
 
         }
 
@@ -61,7 +67,7 @@ namespace GUI
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Application.Current.Shutdown();
         }
 
         private void ProfileNameTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -102,8 +108,9 @@ namespace GUI
                 Profile selectedProfile = ((Profile)ProfilesListBox.SelectedItem);
                 HomeWindow home = new HomeWindow();
                 ProfileInfo.UserProfile = selectedProfile;
-                this.Close();
+                this.Hide();
                 home.Show();
+                HomeWindow.isShow = true;
             }
         }
 

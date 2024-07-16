@@ -22,7 +22,6 @@ namespace GUI
         private readonly NoteRepository _noteRepository = new NoteRepository(new ToDoListDbContext());
         private readonly NoteService _noteService;
         private Note _noteToUpdate;
-        public Profile LoginedAccount { get; set; } = null;
         public string NoteDetail { get; set; } = null;
         public Note Note { get; set; } = null;
         public DetailWindow()
@@ -70,7 +69,7 @@ namespace GUI
                 //newNote.NoteId = GenerateNewId();
 
                 newNote.Title = TitleTextBox.Text;
-                newNote.ProfileId = LoginedAccount.ProfileId;
+                newNote.ProfileId = ProfileInfo.UserProfile.ProfileId;
                 newNote.Description = DescriptionTextBox.Text;
                 newNote.ModifiedDate = DateTime.Now;
                 newNote.Status = "Pending";

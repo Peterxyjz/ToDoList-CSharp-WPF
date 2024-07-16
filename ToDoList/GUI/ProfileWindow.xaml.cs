@@ -81,11 +81,6 @@ namespace GUI
                 ProfileNameTextBox.Foreground = System.Windows.Media.Brushes.Gray;
             }
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void ProfilesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -106,7 +101,7 @@ namespace GUI
             {
                 Profile selectedProfile = ((Profile)ProfilesListBox.SelectedItem);
                 HomeWindow home = new HomeWindow();
-                home.LoginedAccount = selectedProfile;
+                ProfileInfo.UserProfile = selectedProfile;
                 this.Close();
                 home.Show();
             }
@@ -133,7 +128,5 @@ namespace GUI
                 }
             }
         }
-
-
     }
 }

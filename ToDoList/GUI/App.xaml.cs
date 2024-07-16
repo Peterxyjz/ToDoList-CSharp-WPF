@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using Forms = System.Windows.Forms;
+using Repositories.Entities;
 
 namespace GUI
 {
@@ -38,5 +39,12 @@ namespace GUI
             base.OnExit(e);
         }
 
+
     }
+
+    public static class ProfileInfo
+    {
+        public static Profile? UserProfile { get; set; } = null;
+    }
+
 }

@@ -29,6 +29,7 @@ namespace GUI
         private int Id;
         private bool isShowingNotCompletedNotes = false;
 
+
         public HomeWindow()
         {
             InitializeComponent();
@@ -49,23 +50,10 @@ namespace GUI
             .Show(); // Not seeing the Show() method? Make sure you have v
         }
 
-        private Profile? _loginedAccount;
-
-        public Profile LoginedAccount
-        {
-            get { return _loginedAccount; }
-            set
-            {
-                _loginedAccount = value;
-                if (_loginedAccount != null)
-                {
-                    WelcomeLabel.Content = $"{_loginedAccount.ProfileName}, what do you have planned for today?";
-                }
-            }
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
+            WelcomeLabel.Content = $"{ProfileInfo.UserProfile.ProfileName}";
             RefreshNotes();
         }
 
@@ -73,7 +61,7 @@ namespace GUI
         {
             DateTime selectedDate = CalendarControl.SelectedDate.GetValueOrDefault();
             NotesDataGrid.ItemsSource = null;
-            NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileIdAndTime(LoginedAccount.ProfileId, selectedDate);
+            NotesDataGrid.ItemsSource = _noteService.GetNotesByProfileIdAndTime(ProfileInfo.UserProfile.ProfileId, selectedDate);
         }
 
         private void AllBtn_Click(object sender, RoutedEventArgs e)
@@ -96,12 +84,12 @@ namespace GUI
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
         {
             DetailWindow detail = new DetailWindow();
-            detail.LoginedAccount = LoginedAccount;
             detail.ShowDialog();
         }
 
         private void ChageProfileButton_Click(object sender, RoutedEventArgs e)
         {
+            ProfileInfo.UserProfile = null;
             ProfileWindow profileWindow = new ProfileWindow();
             profileWindow.Show();
             this.Close();
@@ -147,7 +135,7 @@ namespace GUI
 
                 if (isShowingNotCompletedNotes)
                 {
-                    NotesDataGrid.ItemsSource = _noteService.GetNotCompletedNotes(LoginedAccount.ProfileId)
+                    NotesDataGrid.ItemsSource = _noteService.GetNotCompletedNotes(ProfileInfo.UserProfile.ProfileId)
                                                             .OrderByDescending(n => n.ModifiedDate)
                                                             .ToList();
                 }
@@ -175,10 +163,10 @@ namespace GUI
         public void RefreshNotes()
         {
             var notes = isShowingNotCompletedNotes
-                        ? _noteService.GetNotCompletedNotes(LoginedAccount.ProfileId)
+                        ? _noteService.GetNotCompletedNotes(ProfileInfo.UserProfile.ProfileId)
                                        .OrderByDescending(note => note.ModifiedDate)
                                        .ToList()
-                        : _noteService.GetNotesByProfileId(LoginedAccount.ProfileId)
+                        : _noteService.GetNotesByProfileId(ProfileInfo.UserProfile.ProfileId)
                                       .OrderByDescending(note => note.ModifiedDate)
                                       .ToList();
 

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Profile" Height="696" Width="500" Background="#FFF0F0F0">
+        Title="Task Master" Height="696" Width="500" Background="#FFF0F0F0">
     <Grid Height="348" VerticalAlignment="Top">
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Width="350" Margin="0,24,0,0">
             <TextBlock Text="Enter Profile Name" FontWeight="Bold" Margin="0,0,0,10" Height="20" />
@@ -16,7 +16,7 @@
                 <Button x:Name="ExitButton" Content="Exit" Width="150" Height="40" Margin="0,0,10,0" Click="ExitButton_Click" Background="Red"/>
             </StackPanel>
             <TextBlock Margin="10,20,0,10" FontWeight="Bold" Height="17"><Run Text="Profiles:"/><LineBreak/><Run/></TextBlock>
-            <Label Content="*Dobule click to go to your profile&#xD;&#xA;*Right click to delete profile" Height="30" FontSize="8"/>
+            <Label Content="*Double click to go to your profile&#xD;&#xA;*Right click to delete profile" Height="30" FontSize="8"/>
             <ListBox x:Name="ProfilesListBox" Width="350" Height="101" ItemsSource="{Binding Profiles}"  PreviewMouseRightButtonDown="ProfilesListBox_MouseRightButtonDown" MouseDoubleClick="ProfilesListBox_MouseDoubleClick" SelectionChanged="ProfilesListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>

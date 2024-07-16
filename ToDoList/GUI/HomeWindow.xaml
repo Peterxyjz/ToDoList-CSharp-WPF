@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Home" Height="600" Width="1048" Background="#FFF0F0F0" Loaded="Window_Loaded">
+        Title="Task Master" Height="600" Width="1048" Background="#FFF0F0F0" Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
             <Style.Triggers>

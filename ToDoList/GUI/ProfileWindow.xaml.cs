@@ -65,9 +65,27 @@ namespace GUI
             }
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        private void QuitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void ExitButton_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MinimizeButton_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
 
         private void ProfileNameTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -135,5 +153,7 @@ namespace GUI
                 }
             }
         }
+
+        
     }
 }

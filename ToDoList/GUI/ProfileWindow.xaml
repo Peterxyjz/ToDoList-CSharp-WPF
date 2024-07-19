@@ -3,35 +3,47 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GUI"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        Title="Task Master" Height="696" Width="500" Background="#FFF0F0F0">
-    <Grid Height="348" VerticalAlignment="Top">
-        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Width="350" Margin="0,24,0,0">
-            <TextBlock Text="Enter Profile Name" FontWeight="Bold" Margin="0,0,0,10" Height="20" />
-            <TextBox x:Name="ProfileNameTextBox" Width="350" Height="40" Text="Enter profile name" Foreground="Gray" GotFocus="ProfileNameTextBox_GotFocus" LostFocus="ProfileNameTextBox_LostFocus"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                <Button x:Name="CreateProfileButton" Content="Create Profile" Width="150" Height="40" Click="CreateProfileButton_Click" Margin="0,0,10,0"/>
-                <Button x:Name="ExitButton" Content="Exit" Width="150" Height="40" Margin="0,0,10,0" Click="ExitButton_Click" Background="Red"/>
+        Title="ToDoList" Height="650" Width="1000" Background="Transparent" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!-- Left -->
+        <Border Background="#0da487" Padding="30" CornerRadius="25 0 0 25">
+            <StackPanel VerticalAlignment="Center">
+                <Image Source="/profile.ico" Width="160" Height="160" Margin="0 0 0 40"/>
+                <TextBlock Text="Create New Profile" TextAlignment="Center" FontWeight="SemiBold" FontSize="28" Foreground="#fff"/>
+                <TextBox x:Name="ProfileNameTextBox" Style="{StaticResource ModernTextBox}" Text="Enter profile name" Foreground="Gray" GotFocus="ProfileNameTextBox_GotFocus" LostFocus="ProfileNameTextBox_LostFocus"/>
+                <Grid>
+                    <Button x:Name="CreateProfileButton" Style="{StaticResource ModernButton}" Content="Create Profile" Click="CreateProfileButton_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" Height="35"/>
+                    <Button x:Name="QuitButton" Style="{StaticResource ModernButton}" Content="Exit" Background="Red" Click="QuitButton_Click"  VerticalAlignment="Top" HorizontalAlignment="Right" Width="120" Height="35"/>
+                </Grid>
             </StackPanel>
-            <TextBlock Margin="10,20,0,10" FontWeight="Bold" Height="17"><Run Text="Profiles:"/><LineBreak/><Run/></TextBlock>
-            <Label Content="*Double click to go to your profile&#xD;&#xA;*Right click to delete profile" Height="30" FontSize="8"/>
-            <ListBox x:Name="ProfilesListBox" Width="350" Height="101" ItemsSource="{Binding Profiles}"  PreviewMouseRightButtonDown="ProfilesListBox_MouseRightButtonDown" MouseDoubleClick="ProfilesListBox_MouseDoubleClick" SelectionChanged="ProfilesListBox_SelectionChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="4">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="Key" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding ProfileName}" FontWeight="Bold"  />
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-
-
-        </StackPanel>
+        </Border>
+        <!-- Right -->
+        <Border Grid.Column="1" Padding="20" Background="#fff" CornerRadius="0 25 25 0" >
+            <Grid>
+                <Image Source="/close.ico" Width="25" Margin="0 4 5 0" Style="{StaticResource iconApp}" x:Name="ExitButton" MouseLeftButtonUp="ExitButton_MouseLeftButtonUp"/>
+                <Image Source="/minimize.ico" Width="25" Margin="0,4,40,0" Style="{StaticResource iconApp}" x:Name="MinimizeButton" MouseLeftButtonUp="MinimizeButton_MouseLeftButtonUp"/>
+                <TextBlock Text="Choose Profile" TextAlignment="Center" FontWeight="SemiBold" FontSize="28" Foreground="#363636" Margin="159,79,159,491"/>
+                <TextBlock Text="Double click to go to your profile&#xD;&#xA;Right click to delete profile" TextAlignment="Center" FontWeight="SemiBold" FontSize="20" Foreground="#363636" Margin="140,124,132,434"/>
+                <ListBox x:Name="ProfilesListBox" Style="{StaticResource ModernListBox}" ItemsSource="{Binding Profiles}"  PreviewMouseRightButtonDown="ProfilesListBox_MouseRightButtonDown" MouseDoubleClick="ProfilesListBox_MouseDoubleClick" SelectionChanged="ProfilesListBox_SelectionChanged" Margin="42,204,34,10">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Key" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding ProfileName}" FontWeight="Bold"  />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

@@ -3,6 +3,9 @@ using System.Data;
 using System.Windows;
 using Repositories.Entities;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.IO;
 
 namespace GUI
 {
@@ -23,6 +26,14 @@ namespace GUI
 
             _contextMenuStrip.Items.Add(menuItemExit);
             _notifyIcon.ContextMenuStrip = _contextMenuStrip;
+
+            var img = Path.GetFullPath(@"icon.ico");
+            new ToastContentBuilder()
+
+          .AddAppLogoOverride(new Uri(img))
+          .AddText("Welcome")
+          .AddText("Do it now!")
+          .Show();
 
         }
         private void MenuItemExit_Click(object sender, EventArgs e)

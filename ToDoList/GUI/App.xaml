@@ -14,6 +14,33 @@
         <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
         <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
 
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <!--<Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="Padding" Value="10"/>-->
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource BackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style TargetType="ListBox">
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
+
+    
         <!--New UI-->
         <Style x:Key="buttonBlack" TargetType="Button">
             <Setter Property="Background" Value="#fff" />
@@ -58,7 +85,6 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
-        <!-- Modern Button Style -->
         <Style x:Key="ModernButton" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
             <Setter Property="Foreground" Value="White" />
@@ -122,6 +148,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
     </Application.Resources>
 </Application>

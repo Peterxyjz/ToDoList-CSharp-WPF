@@ -11,15 +11,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="all.png" />
+    <None Remove="cartoon-woman-pretty.png" />
     <None Remove="close.ico" />
+    <None Remove="delete.png" />
+    <None Remove="detail.png" />
+    <None Remove="incomplete.png" />
     <None Remove="minimize.ico" />
     <None Remove="profile.ico" />
+    <None Remove="quit.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="all.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="cartoon-woman-pretty.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="delete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="detail.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="incomplete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="quit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

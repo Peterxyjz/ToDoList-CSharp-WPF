@@ -79,7 +79,7 @@ namespace GUI
 
                 _noteService.AddNote(newNote);
             }
-
+            DialogResult = true;
             this.Close();
             var mainWindow = Application.Current.Windows.OfType<HomeWindow>().FirstOrDefault();
             if (mainWindow != null)
@@ -90,6 +90,7 @@ namespace GUI
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = false;
             this.Close();
         }
 

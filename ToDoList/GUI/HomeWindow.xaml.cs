@@ -102,6 +102,8 @@ namespace GUI
         {
             DetailWindow detail = new DetailWindow();
             detail.ShowDialog();
+            if (detail.DialogResult == true)
+                RefreshNotes();
         }
 
         private void ChageProfileButton_Click(object sender, RoutedEventArgs e)
@@ -116,11 +118,15 @@ namespace GUI
         {
             var button = sender as Button;
             var note = button.DataContext as Note;
+
+            DetailWindow detail = new DetailWindow(note);
             if (note != null)
             {
-                DetailWindow detail = new DetailWindow(note);
                 detail.ShowDialog();
             }
+            if (detail.DialogResult == true)
+                RefreshNotes();
+
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

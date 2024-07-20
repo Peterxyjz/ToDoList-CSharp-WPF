@@ -15,7 +15,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.IO;
 using System.Threading;
 using System.ComponentModel;
 
@@ -26,7 +26,7 @@ namespace GUI
         private readonly NoteRepository _noteRepository = new NoteRepository(new ToDoListDbContext());
         private readonly NoteService _noteService;
         private Timer _timer;
-        private List<DateTime> _notificationTimes;
+        private List<Note> _notificationTimes;
         private int Id;
         private bool isShowingNotCompletedNotes = false;
 
@@ -38,8 +38,7 @@ namespace GUI
             _noteService = new NoteService(_noteRepository);
             DataContext = this;
 
-            InitializeNotificationTimes();
-            SetupTimer();
+          
             Closing += (sender, e) =>
             {
                 e.Cancel = true;
@@ -49,20 +48,24 @@ namespace GUI
             };
         }
 
-        private void ShowNotification(DateTime time)
+        private void ShowNotification(Note note)
         {
+
+
+            var img = Path.GetFullPath(@"thayiu.ico");
             new ToastContentBuilder()
-            .AddArgument("action", "viewConversation")
-            .AddArgument("conversationId", 9813)
-            .AddText("Title")
-            .AddText("Description")
-            .Show(); // Not seeing the Show() method? Make sure you have v
+
+          .AddAppLogoOverride(new Uri(img))
+          .AddText(note.Title)
+          .AddText(note.Description)
+          .Show();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            WelcomeLabel.Content = $"What have you planned for today, {ProfileInfo.UserProfile.ProfileName}?";
+            WelcomeLabel.Content = $"Hello 👋 What have you planned for today, {ProfileInfo.UserProfile.ProfileName}?";
+           
             RefreshNotes();
         }
 
@@ -87,7 +90,12 @@ namespace GUI
 
         private void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)
@@ -181,6 +189,9 @@ namespace GUI
 
             NotesDataGrid.ItemsSource = null;
             NotesDataGrid.ItemsSource = notes;
+
+            InitializeNotificationTimes();
+            SetupTimer();
         }
 
         private void NotesDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -201,13 +212,8 @@ namespace GUI
         private void InitializeNotificationTimes()
         {
             // Danh sách các thời gian để hiện thông báo
-            //_notificationTimes = _noteService.GetNotesByProfileID(Id);
-            _notificationTimes = new List<DateTime>
-            {
-            new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 00, 37, 00), // 12h hôm nay
-            new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 00, 38, 00), // 14:30 hôm nay
-            // Thêm các thời gian khác vào đây
-            };
+            _notificationTimes =  _noteService.GetDateTimesByProfileId(ProfileInfo.UserProfile.ProfileId);
+            
 
         }
 
@@ -222,12 +228,12 @@ namespace GUI
         {
             DateTime now = DateTime.Now;
 
-            foreach (var time in _notificationTimes.ToList())
+            foreach (var note in _notificationTimes.ToList())
             {
-                if (now.Hour == time.Hour && now.Minute == time.Minute && now.Second == time.Second)
+                if (now.Date == note.Time.Date && now.Hour == note.Time.Hour && now.Minute == note.Time.Minute && now.Second == note.Time.Second)
                 {
-                    Dispatcher.BeginInvoke(() => ShowNotification(time));
-                    _notificationTimes.Remove(time); // Xóa thời gian đã thông báo
+                    Dispatcher.BeginInvoke(() => ShowNotification(note));
+                    _notificationTimes.Remove(note); // Xóa thời gian đã thông báo
                 }
             }
         }

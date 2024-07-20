@@ -22,6 +22,12 @@ namespace Services
         {
             return _noteRepo.GetNotesByProfileId(profileId);
         }
+
+        public List<Note> GetDateTimesByProfileId(int profileId)
+        {
+            var result =_noteRepo.GetNotesByProfileId(profileId).Where(x => x.Time > DateTime.Now).ToList();
+            return result;
+        }
         public IEnumerable<Note> GetNotCompletedNotes(int profileId)
         {
             IEnumerable<Note> notes = GetNotesByProfileId(profileId);

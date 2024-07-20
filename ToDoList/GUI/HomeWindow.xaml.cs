@@ -64,7 +64,7 @@ namespace GUI
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            WelcomeLabel.Content = $"What have you planned for today, {ProfileInfo.UserProfile.ProfileName}?";
+            WelcomeLabel.Content = $"Hello 👋 What have you planned for today, {ProfileInfo.UserProfile.ProfileName}?";
            
             RefreshNotes();
         }
@@ -90,7 +90,12 @@ namespace GUI
 
         private void QuitBtn_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to exit?", "Confirm Exit", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void CreateNoteButton_Click(object sender, RoutedEventArgs e)

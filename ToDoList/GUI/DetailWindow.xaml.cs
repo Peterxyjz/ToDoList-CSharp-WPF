@@ -60,7 +60,8 @@ namespace GUI
                 _noteToUpdate.Title = TitleTextBox.Text;
                 _noteToUpdate.Description = DescriptionTextBox.Text;
                 _noteToUpdate.ModifiedDate = DateTime.Now;
-                _noteToUpdate.Time = (DateTime)ReminderDateTimePicker.Value;
+                DateTime currentTime = (DateTime)ReminderDateTimePicker.Value;
+                _noteToUpdate.Time = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
                 _noteService.UpdateNote(_noteToUpdate);
             }
             else
@@ -73,7 +74,8 @@ namespace GUI
                 newNote.Description = DescriptionTextBox.Text;
                 newNote.ModifiedDate = DateTime.Now;
                 newNote.Status = "Pending";
-                newNote.Time = (DateTime)ReminderDateTimePicker.Value;
+                DateTime currentTime = (DateTime)ReminderDateTimePicker.Value;
+                newNote.Time = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
 
                 _noteService.AddNote(newNote);
             }
